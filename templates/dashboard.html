@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard · WorkFlowX</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">✔ WorkFlowX</div>
+    <div class="topbar-right">
+      <span class="welcome">Welcome, <strong>{{ name }}</strong></span>
+      <a class="btn ghost" href="{{ url_for('logout') }}">Log out</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="summary" aria-label="Task summary">
+      <div class="stat s-total"><span id="st-total">0</span><small>Total tasks</small></div>
+      <div class="stat s-pending"><span id="st-pending">0</span><small>Pending</small></div>
+      <div class="stat s-progress"><span id="st-progress">0</span><small>In progress</small></div>
+      <div class="stat s-done"><span id="st-done">0</span><small>Completed</small></div>
+      <div class="stat s-overdue"><span id="st-overdue">0</span><small>Overdue</small></div>
+    </section>
+
+    <section class="toolbar">
+      <button class="btn primary" id="add-btn">＋ Add task</button>
+      <input type="search" id="search" placeholder="Search by title…" aria-label="Search tasks">
+      <select id="f-status" aria-label="Filter by status">
+        <option value="">All statuses</option>
+        <option>Pending</option><option>In Progress</option><option>Completed</option>
+      </select>
+      <select id="f-priority" aria-label="Filter by priority">
+        <option value="">All priorities</option>
+        <option>Low</option><option>Medium</option><option>High</option>
+      </select>
+      <select id="f-category" aria-label="Filter by category"><option value="">All categories</option></select>
+      <select id="f-sort" aria-label="Sort by due date">
+        <option value="asc">Due date: earliest first</option>
+        <option value="desc">Due date: latest first</option>
+      </select>
+    </section>
+
+    <section id="task-list" class="task-grid" aria-live="polite"></section>
+  </main>
+
+  <dialog id="task-modal">
+    <form id="task-form">
+      <h2 id="modal-title">Add task</h2>
+      <div id="form-error" class="alert error" hidden></div>
+      <input type="hidden" id="task-id">
+      <label>Title <input type="text" id="t-title" maxlength="100" required></label>
+      <label>Description <textarea id="t-desc" rows="3" maxlength="1000"></textarea></label>
+      <div class="row">
+        <label>Priority
+          <select id="t-priority"><option>Low</option><option selected>Medium</option><option>High</option></select>
+        </label>
+        <label>Status
+          <select id="t-status"><option>Pending</option><option>In Progress</option><option>Completed</option></select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Due date <input type="date" id="t-due" required></label>
+        <label>Category (optional) <input type="text" id="t-cat" maxlength="40" placeholder="e.g. Study"></label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" id="cancel-btn">Cancel</button>
+        <button type="submit" class="btn primary">Save task</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
